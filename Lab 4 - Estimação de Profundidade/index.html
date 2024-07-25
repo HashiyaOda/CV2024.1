@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatório de atividade prática<br>Visão Computacional<br>Experimento 1 - Captura de imagem e vídeo<br><br>THIAGO HASHIYA ODA  11201810891<br>VITOR DOMENIQUELLI CHAGAS   11201810504<br> IVAN SALVATORE RUBINO  11025213</title>
+    <title>Relatório de atividade prática<br>Visão Computacional<br>Experimento 4 - Estimação de profundidade<br><br>THIAGO HASHIYA ODA  11201810891<br>VITOR DOMENIQUELLI CHAGAS   11201810504<br> IVAN SALVATORE RUBINO  11025213</title>
     <style>
         body {
             align-items: center;
@@ -15,68 +15,36 @@
 </head>
 <body>
     <a href="../index.html">Página principal</a>
-    <h1>Relatório de atividade prática<br>Visão Computacional<br>Experimento 1 - Captura de imagem e vídeo<br><br>THIAGO HASHIYA ODA  11201810891<br>VITOR DOMENIQUELLI CHAGAS   11201810504<br> IVAN SALVATORE RUBINO  11025213</h1>
+    <h1>Relatório de atividade prática<br>Visão Computacional<br>Experimento 4 - Estimação de profundidade<br><br>THIAGO HASHIYA ODA  11201810891<br>VITOR DOMENIQUELLI CHAGAS   11201810504<br> IVAN SALVATORE RUBINO  11025213</h1>
     <h1>OBJETIVOS</h1>
-    <p>Conhecer os comandos para visualizar e gravar imagens e vídeos no Ubuntu com o OpenCV, gravar um Vídeo e mostrá-lo no relatório e  Elaborar o relatório em equipe de alunos.</p>
+    <p>Entender os conceitos de Mapa de Disparidade, Retificação de Imagens, e Mapa de Produndidade. Realizar um experimento de medida da distancia de objetos através do mapa de disparidade de uma câmera estéreo. Elaborar o relatório em equipe de alunos.</p>
     <br><br><br>
     
-    <h1>Parte 1<br>Leitura de imagem em arquivo: O programa “L1_1_img.py” realiza a leitura e de imagem gravado num arquivo e mostra a imagem numa janela do linux. Além disso, o programa permite salvar a imagem em arquivo. Execute e verifique o resultado:</h1>
-    <p>Ao rodar o programa, foi observado que a imagem apresentada está em escala de cinza. A imagem abre desse jeito visto que dentro do código .py existe a seguinte linha de comando:</p>
-    <p><b>img = cv.imread('messi5.jpg',0)</b></p>
-    <p>Quando verificamos na documentação do OpenCV, é mencionado que o último termo define como que a imagem será lida, onde com o valor 0, é utilizado em escala de cinza. Para que a imagem seja obtida com cores, podemos alterar esse parâmetro para 1, conforme abaixo:</p>
-    <p><b>img = cv.imread('messi5.jpg',1)</b></p>
-    <br><br><br>
-    <h1>Leitura de vídeo em arquivo: O programa “L1_2_video.py” realiza a leitura de vídeo gravado num arquivo e exibe a sequência das imagens numa janela do linux. Execute e verifique o resultado:</h1>
-    <p>Quando executamos, observamos que é passado um vídeo. Esse vídeo está em velocidade normal e com cores. Podemos alterar a velocidade de reprodução do vídeo alterando a seguinte linha do código:</p>
-    <p><b>time.sleep(1/25.0)</b></p>
-    <p>Quando alteramos o valor do dividendo (25), podemos acelerar a reprodução, ou deixá-la mais lenta. Por exemplo, ao abaixar para 1/1, é mostrado 1 frame a cada 1 segundo, fazendo que o vídeo aparenta estar travado, visto que cada frame é atualizado a cada segundo. Quando alteramos para 1/1000, o vídeo é reproduzido de forma bem mais rápida, visto que todos os frames são mostrados em intervalos menores e o vídeo inteiro é acelerado</p>
-    <br><br><br>
-    <h1>Leitura de imagem de câmera: O programa “L1_3_webcam.py” realiza a leitura de imagens da câmera instalada no computador e exibe a sequência das imagens mostradas numa janela do linux. Execute e verifique o resultado:</h1>
-    <p>Para este código, foi solicitado que ao pressionar a tecla X no teclado, é salva uma foto do frame em questão. Essa função pode ser feita com a adição das seguintes linhas no código:</p>
-    <p><b>if cv.waitKey(1) == ord('x'):</b></p>
-    <p><b>    cv.imwrite('foto1.png', frame):</b></p>
-    <p>Inserimos logo abaixo da outra função “If”. No caso a adição destas linhas fazem que ao ser pressionado o “X”, o frame é salvo como uma imagem com o nome de “foto1.png”. Caso nenhuma tecla seja apertada, nada acontece.</p>
-    <br><br><br>
-    <h1>Gravação de vídeo da câmera: O programa “L1_4_webcap.py” realiza a leitura de imagens da câmera, exibe a sequência de imagens numa nova janela do Linux, e ao digitar a tecla “q” salva toda a sequência de imagens num arquivo “saida.avi” no formato AVI de vídeo. Execute e verifique o resultado:</h1>
-    <p>No código acima, foi visto que o vídeo está com uma reprodução bem lenta e o vídeo está invertido, para resolver esses dois problemas, podemos realizar as seguintes alterações:</p>
-    <p><b><s>fps = 10.0 </s> ->   fps = 30.0</b></p>
-    <p><b><s>frame = cv.flip(frame, 0) </s> ->   #frame = cv.flip(frame, 0)</b></p>
-    <p>A primeira alteração resulta na fluidez da imagem, onde aumentamos a taxa de atualização da reprodução. A segunda alteração é relacionada à inversão do vídeo. Esse ajuste pode ser feito de duas maneiras, a que optamos foi por desabilitar a função de cv.flip por adicionar o “#” no início. Outra maneira poderia ser por alterar o segundo parâmetro da função para 1, o que resulta apenas no espelhamento do vídeo, fazendo que movimentos para a esquerda fiquem na mesma referência para o autor do vídeo.</p>
-    <br><br><br>
-    <br><br><br>
-    <h1>Parte 2</h1>
-    <p>Foto tirada em laboratório 25.06.2024 dos integrantes do grupo:</p>
-    <img src="foto1.png" alt="Foto">
-    <p>Avatar criado com a foto anterior dos membros do grupo:</p>
-    <img src="AVATAR.png" alt="Foto">
-    
-    <br><br><br>
-    <p>Link para os videos criados:</p>
-    <a href="https://drive.google.com/file/d/1xh2lFgsGhgnFxewaI1ttyEZ5pljtWOs-/view?usp=drive_link">Video com pessoa lenta</a><br>
-    <a href="https://drive.google.com/file/d/1Gz-rOESqUDypxSshS5gOb9nR3ym4tga3/view?usp=drive_link">Video com pessoa rápida</a><br>
-    <a href="https://drive.google.com/file/d/1RJYmNt-PIQak4Or8SvcdpYcbmqs4gikC/view?usp=drive_link">Video com objeto lento</a><br>
-    <a href="https://drive.google.com/file/d/1TvWd0Fm4h5Hz0f92RBjHE2hV5cqbe2I8/view?usp=drive_link">Video com objeto rápido</a><br>
+    <h1>Parte 1<br>Estudo da teoria sobre estereoscopia e parâmetros conjuntos de duas  câmeras, e também sobre processo de mapeamento de disparidade entre duas 
+ cameras.
+</h1>
     <br><br><br>
     
-    <p>Pessoa lenta:</p>
-    <video controls width="900" height="600">
-        <source src="pessoa_lenta.mp4" type="video/mp4">
-    </video>
+    <h1>Parte 2<br>Utilizar a câmera estereoscopica construída na aula anterior. 
+i. Realizar a calibração estereo seguindo as instruçoes indicadas na seção “Step 2: Performing stereo calibration with fixed intrinsic parameters” da referencia [1], repetindo conforme realizado na aula anterior (captura de imagens do padrão e calculo dos parametros de calibração. Os parametros serão salvos no arquivo “params_py.xml”, que deverão ser usados no próximo procedimento.
+ii. Executar o algoritmo Block Matching do OpenCV, sintonizando seus parâmetros seguindo as orientações indicadas na seção “Block Matching For Dense Stereo Correspondence” da referencia [3].  Neste caso é utilizado o programa “disparity_params_gui.py”. Este programa deverá ser adaptado para leitura do arquivo “params_py.xml”, com os parâmetros de calibração da sua camera estéreo.  Ao final do processo, o mapa de disparidade será salvo no arquivo “depth_estmation_params_py.xml”. Este arquivo será utilizado no próximo procedimento.
+iii. Obter o mapa de profundidade pelo processo prático de medidad de distância seguindo as orientações indicadas na seção “From disparity map to depth map” da referencia [3]. Neste caso é utilizado o programa “disparity2depth_calib.py”. Este programa deverá ser adaptado para leitura do arquivo “params_py.xml”, com os parâmetros de calibração da sua camera estéreo. Neste caso, será utilizado o mapa de disparidade do arquivo “depth_estmation_params_py.xml”. Este mesmo arquivo xml será atualizado com novos valores, pois será utilizado no próximo procedimento.
+iv. Realizar medidas de distância seguindo as orientações indicadas na seção “Obstacle avoidance system” da referencia [3]. Neste caso é utilizado o programa “obstacle_avoidance.py”. Este programa deverá ser adaptado para leitura do arquivo “params_py.xml”, e do arquivo “depth_estmation_params_py.xml”. Utilize pelo menos três objetos distintos.
+v. As medidas de distância realizadas deverão ser colocadas numa tabela, e comparadas com a distância real. Calcule o erro, e faça uma análise dos resultados das medições bem como da influencia dos parametros.
+vi. No relatório descreva os procedimentos com o máximo de detalhes, de forma a permitir a reprodução do experimento. Grave imagens e videos dos procedimentos.
+</h1>
+    <br><br><br>
+
     
-    <p>Pessoa rápida:</p>
-     <video controls width="900" height="600">
-        <source src="pessoa_rapida.mp4" type="video/mp4">
-    </video>
-    
-     <p>Objeto lento:</p>
-     <video controls width="900" height="600">
-        <source src="obj_lento.mp4" type="video/mp4">
-    </video>
-    
-    <p>Objeto rápido:</p>
-     <video controls width="900" height="600">
-        <source src="obj_rapido.mp4" type="video/mp4">
-    </video>
+    <h1>Parte 3<br></h1>
+    <p>Inicialmente foi realizado a calibraçao das cameras usando o arquivo que tira as fotos de ambas as cameras com um intervalo de 5 segundos por foto. Em seguida, é utilizado o programa de calibração em que calcula e retorna a tabela com os parametros de calibração desta camera. Com o arquivo da calibração, alimentamos no arquivo de “disparity2depth_calib.py". Porem o grupo observou que neste código, é aberto uma janela com o feed do video com uma camada de processamento em relação a imagem das duas cameras. Abaixo segue como a janela deveria abrir, onde estaria os ajustes dos parametros e em uma caixa o feed de video.</p>
+<img src="Display.png" alt="Foto">
+    <p> No entanto, reparamos que o feed estava incorreto então optamos por realizar a calibração novamente. Depois de algumas novas calibrações, foi possivel obter uma imagem pelo feed de video porem ele estava com um zoom e apenas pegando uma pequena seção do video. Acreditamos que no processo de calibração, o posicionamento das cameras sofreram alguma alteração e/ou o codigo interpreta que apenas aquela seção em particular em que há uma intersecção das imagens das cameras. Abaixo segue uma imagem onde representa como que o nosso sistema estava se comportando, onde o feed de video apresentado seria apenas o que está marcado com o quadrado vermelho.</p>
+<img src="Display2.png" alt="Foto">
+    <p>Mexendo nos parametros, era possivel de obter uma imagem mais limpa do feed, porem como estava com um zoom, nao foi possivel realizar os demais passos do experimento, onde seria uma estimativa da distancia de um certo objeto a partir desse calculo de paralaxe entre as cameras:</p>
+
+    <br><br><br>
+
 
     <h1>Análise e Conclusão</h1>
     <p>Esse primeiro laboratório serviu para inicializarmos com o processo de aprendizado com Python e algumas funções. A maioria das funções já estavam escritas porem estavam com algum erro e/ou com parametros errados. Com algumas alterações desses codigos os programas rodaram conforme solicitado.</p>
