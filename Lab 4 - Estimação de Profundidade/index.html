@@ -43,8 +43,11 @@ i. Realizar a calibração estereo seguindo as instruçoes indicadas na seção 
 <img src="Display.png" alt="Foto">
     <p> No entanto, reparamos que o feed estava incorreto então optamos por realizar a calibração novamente. Depois de algumas novas calibrações, foi possivel obter uma imagem pelo feed de video porem ele estava com um zoom e apenas pegando uma pequena seção do video. Acreditamos que no processo de calibração, o posicionamento das cameras sofreram alguma alteração e/ou o codigo interpreta que apenas aquela seção em particular em que há uma intersecção das imagens das cameras. Abaixo segue uma imagem onde representa como que o nosso sistema estava se comportando, onde o feed de video apresentado seria apenas o que está marcado com o quadrado vermelho.</p>
 <img src="Display2.png" alt="Foto">
-    <p>Mexendo nos parametros, era possivel de obter uma imagem mais limpa do feed, porem como estava com um zoom, nao foi possivel realizar os demais passos do experimento, onde seria uma estimativa da distancia de um certo objeto a partir desse calculo de paralaxe entre as cameras:</p>
-
+    <p>Realizando mais calibrações, o grupo observou que ao realizar o processo de calibração, o algoritmo que faz o processo acaba ocasionando alguns erros. Durante o calculo, o algoritmo estipula os pontos de calibração e podem ser vistos como na figura a seguir. Podemos observar como que o algoritmo definiu os parametros para as duas cameras, e no caso as duas seguem o mesma sequencia para a calibração.</p>
+<img src="correto2.png" alt="Foto">
+        <p>Porem reparamos que o algoritmo muitas vezes realiza uma calibração diferente entre as duas cameras, onde para uma camera realiza um padrão e para outra, o oposto. Esse comportamento pode ser visto abaixo onde as duas cameras estão com uma calibração oposta a outra:</p>
+<img src="errado.png" alt="Foto">
+            <p>Tiramos a prova real realizando o processo de calibração apenas com images que apresentam a mesma calibração entre elas. Quando isso foi feito, houve uma imagem retornada pelo display, o que indica que realmente a inversão de calibração entre as cameras estava ocasionando em algumas calibrações não retornarem video, e outras retornarem com um zoom na camera.</p>
     <br><br><br>
 
 
