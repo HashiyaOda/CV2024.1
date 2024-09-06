@@ -8,18 +8,88 @@
 <body>
     <a href="../index.html">Página principal</a>
     <h1>Projeto - Identificador de vagas de carro para um estacionamento</h1>
+
+    <h1>Introdução</h1>
     <p>Para este programa, foi procurado na internet algumas ideias de projetos já desenvolvidos como meio de estudo das ideias já utilizadas e testadas. Foi encontrado diversos modelos que fazem uso de CNNs e TensorFlow para a identificação e classificação de carros. Entretanto, um modelo que puxou muito interesse foi um codigo que utiliza apenas o numpy com uma logica em que analisa a quantidade de pixeis em um ponto de interesse (POI) que são diferentes, assim sabendo que dentro dessa area possui um item.</p>
     <a href="https://github.com/harshbafnaa/car-parking-detection#overview">Projeto original</a>
     <p>Com este codigo estudado, fizemos algumas alterações para que funcionasse conforme nossas necessidades. Primeiramente, inves de carregar uma foto para atribuir os pontos de intresse, é carregado o feed de uma camera e atribuida lá os POIs. Apos confirmar com o Enter, a janela de configuração é fechada e é aberta uma nova janela se abre com o sistema de identificação de vagas, indicando a quantidade de vagas disponiveis. Caso um carro entre em alguma vaga, ela muda para amarelo e é informado o tempo em que este carro está parado nesta vaga. Apos um tempo estipulado a cor muda para vermelho, e caso deseje, apos mais um tempo, a vaga fica piscando vermelho. Essa função pode ser util para identificar se a vaga está sendo utilizada de forma inapropriada.  </p>
-    <img src="desktop.jpeg" alt="Minha área de trabalho">
-    <p>SFFPC e Creality Ender 3.</p>
-    <h1>Linguas</h1>
-    <label for="file">Português - BR (Lingua materna):</label>
-    <progress id="file" value="95" max="100">Lingua Materna</progress><br>
-    <label for="file">Ingles (Avançado):</label>
-    <progress id="file" value="85" max="100">Avançado</progress><br>
-    <label for="file">Japonês (Iniciante):</label>
-    <progress id="file" value="15" max="100">Iniciante</progress><br>
-    <a href="../index.html">Página principal</a>
+
+    <h1>Cenário de Aplicação (CA)</h1>
+    <p>Em pequenos estabelecimentos, como restaurantes, lojas e consultórios, uma gestão eficiente do estacionamento é crucial para garantir uma boa experiência aos clientes. Um dos desafios enfrentados pelo Sr. Sergio Hiromi em seu dia a dia é a dificuldade em saber quantas vagas estão ocupadas. Muitos estabelecimentos enfrentam problemas semelhantes, especialmente quando o estacionamento é limitado. Sem uma solução eficaz, os clientes podem ter dificuldade em encontrar uma vaga, levando-os a estacionar em locais impróprios e causando frustração.</p>
+
+    <h1>Fundamentação teórica</h1>
+    <p>Para resolver esse problema, é essencial adotar soluções práticas e acessíveis que otimizem o uso das vagas. Um sistema automatizado de identificação de vagas pode melhorar significativamente a gestão do estacionamento, permitindo a visualização em tempo real das vagas disponíveis e ocupadas. Utilizando uma câmera equipada com tecnologia de visão computacional, o sistema pode contar o número de carros estacionados e exibir essas informações em um painel ou aplicativo, facilitando a localização de vagas e melhorando a experiência dos clientes.
+A visão computacional é um campo da inteligência artificial que capacita sistemas a interpretar e entender informações visuais a partir de imagens ou vídeos. No contexto deste projeto, a visão computacional é utilizada para analisar imagens capturadas por uma câmera e determinar se as vagas de estacionamento estão ocupadas ou livres. O processamento de imagens é crucial para extrair características úteis e realizar a análise necessária para a detecção de ocupação. A solução proposta utiliza a biblioteca OpenCV para processamento de imagens e análise de vídeo, realizando operações como calibração, segmentação e detecção de ocupação de vagas.</p>
+
+     <h1>Modelagem Funcional do SPV (MF)</h1>
+    <h2>Configuração e Calibração</h2>
+    <h3>Configuração de Vagas</h3>
+    <p>A etapa inicial do projeto envolve a configuração das vagas de estacionamento. O sistema permite ao usuário definir as regiões de interesse (vagas) em uma imagem registrada pela câmera ao vivo. O usuário pode adicionar, remover e ajustar as dimensões das vagas interativamente. São fornecidas 6 opções de vagas com diferentes dimensões (largura e altura). As coordenadas (x, y) de cada clique do mouse são utilizadas para armazenar a posição das vagas em um arquivo utilizando o módulo pickle, garantindo que as informações sobre as vagas sejam mantidas entre execuções do programa. O funcionamento do programa é dado pelos comandos a seguir:</p>
+    <ul>
+        <li><strong>Adição de Vagas:</strong> Utiliza-se o clique esquerdo do mouse para adicionar uma vaga com as dimensões atuais.</li>
+        <li><strong>Remoção de Vagas:</strong> Utiliza-se o clique direito do mouse para remover uma vaga existente.</li>
+        <li><strong>Alteração das Dimensões:</strong> Utiliza-se o clique do meio do mouse para alternar entre diferentes predefinições de dimensões.</li>
+    </ul>
+
+    <h2>Processamento de Imagens para Detecção de Vagas Ocupadas</h2>
+    <h3>Pré-processamento</h3>
+    <p>Antes de verificar a ocupação das vagas, a imagem capturada é processada para melhorar a precisão da análise. O pré-processamento inclui:</p>
+    <ul>
+        <li><strong>Conversão para Escala de Cinza:</strong> Converte a imagem para tons de cinza para simplificar a análise e reduzir a complexidade computacional.</li>
+        <li><strong>Blur Gaussian:</strong> Aplica um filtro de desfoque gaussiano para suavizar a imagem e reduzir o ruído.</li>
+        <li><strong>Threshold Adaptativo:</strong> Utiliza o threshold adaptativo para criar uma máscara binária onde os objetos de interesse são destacados.</li>
+        <li><strong>Blur Mediano e Dilatação:</strong> Aplica um blur mediano seguido de dilatação para aprimorar a máscara binária, destacando as regiões ocupadas.</li>
+    </ul>
+
+    <h3>Detecção de Ocupação</h3>
+    <p>Para determinar se uma vaga está ocupada, a função <code>cv2.countNonZero</code> é utilizada. Esta função conta o número de pixels não-zero em uma imagem binária. No código, é aplicada à região da vaga (extraída da imagem processada):</p>
+    <ul>
+        <li><strong>Critério de Ocupação:</strong> Se o número de pixels não-zero é menor que um limiar específico (500 pixels), a vaga é considerada livre; caso contrário, é considerada ocupada.</li>
+    </ul>
+
+    <h2>Gerenciamento de Estado da Vaga</h2>
+    <h3>Temporização e Exibição</h3>
+    <p>O estado das vagas é monitorado continuamente e atualizado com base no tempo de ocupação. O sistema usa o tempo de permanência de um veículo na vaga para alterar a cor da borda da vaga, fornecendo feedback visual ao usuário:</p>
+    <ul>
+        <li><strong>Verde:</strong> Vaga livre.</li>
+        <li><strong>Amarelo:</strong> Vaga ocupada.</li>
+        <li><strong>Vermelho:</strong> Vaga ocupada por mais de 5 segundos, com uma mudança intermitente após 10 segundos.</li>
+    </ul>
+    <p>A temporização é gerenciada usando o módulo <code>datetime</code>, que calcula o tempo decorrido desde a detecção inicial de ocupação e ajusta a cor da borda da vaga conforme a duração.</p>
+
+    <h2>Interface e Interação com o Usuário</h2>
+    <h3>Interface Gráfica</h3>
+    <p>O sistema utiliza o OpenCV para exibir uma interface gráfica que mostra as vagas no estacionamento e suas respectivas informações:</p>
+    <ul>
+        <li><strong>Desenho das Vagas:</strong> As vagas são desenhadas e rotuladas com retângulos coloridos que indicam seu estado.</li>
+        <li><strong>Texto Informativo:</strong> Informações sobre o número de vagas e o estado atual de cada vaga são exibidas na tela para fácil monitoramento.</li>
+        <li><strong>Controle do Usuário:</strong> O usuário interage com o sistema através de uma janela de configuração, onde pode definir e ajustar as vagas. O código usa a biblioteca <code>tkinter</code> para exibir mensagens de configuração e confirmar ações.</li>
+    </ul>
+
+    <h2>Descrição da implementação do Sistema de Processamento da Visão (SPV)</h2>
+    <p>ARQUIVO DE EXPLICAÇÃO DO CÓDIGO</p>
+
+    <h2>Lista dos arquivos</h2>
+    <p>dos código-fonte, imagens, vídeos, e arquivos auxiliares.</p>
+
+    <h2>Análise Técnica</h2>
+    <p>Sobre o grau de atendimento do sistema desenvolvido em relação ao contexto/cenário escolhido:</p>
+    <p>Apresentar medidas ou métricas objetivas (numéricas) e/ou qualitativas, resultantes do desempenho; análise e conclusões.</p>
+    <p>O loop principal de detecção do sistema utiliza uma abordagem sólida ao empregar técnicas padrão de processamento de imagens, como conversão para escala de cinza, desfoque gaussiano, limiar adaptativo, e dilatação. Essas etapas são eficazes para identificar vagas ocupadas e livres, mesmo em condições de iluminação variáveis. No entanto, a técnica de contagem de pixels e a lógica de temporização para mudar a cor das vagas podem ser aprimoradas para lidar melhor com diferentes padrões de estacionamento e evitar falsos positivos, especialmente em áreas de alta movimentação.</p>
+    <p>Embora o sistema funcione bem para um número limitado de vagas, pode haver problemas de desempenho e escalabilidade à medida que o número de vagas aumenta. Melhorias na eficiência do processamento e na interface do usuário, como gráficos ou dashboards interativos, poderiam tornar o sistema mais robusto e fácil de usar, garantindo uma melhor gestão do estacionamento em cenários mais complexos.</p>
+
+    <h2>Laboratório Experimental</h2>
+    <h3>Roteiro do Laboratório Experimental</h3>
+    <h3>Análise dos Resultados do Teste de Campo TCS</h3>
+    <p>Apresentar os resultados de forma organizada, listando detalhadamente os experimentos realizados e os critérios de avaliação. Analisar também as médias dos alunos, e as opiniões subjetivas.</p>
+    <p>O teste de campo foi realizado com colegas de outros grupos. Primeiramente, um integrante do grupo explicava o propósito do trabalho, no caso, criar um sistema que viabilizasse o gerenciamento de um estacionamento a partir do posicionamento de vagas e identificação de veículos estacionados utilizando visão computacional. Em seguida, um integrante do grupo demonstrava o funcionamento na prática. Para isso, foram usados carrinhos de brinquedo e uma folha de papel com demarcação de vagas de estacionamento. O programa era executado e a simulação de diversos cenários, com vagas de tamanhos e orientações diferentes, eram demonstrados.</p>
+    <p>Por fim, os colegas dos outros grupos se revezavam fazendo o teste do programa e tirando dúvidas sobre o funcionamento e a forma como foi realizado o desenvolvimento do programa. Para a execução do mesmo, foi mostrado o roteiro com os passos a serem seguidos. Ao executar os programas, os colegas levantaram dúvidas quanto à sensibilidade do programa ao identificar vagas e também comentaram quanto à flexibilidade do programa. Essas dúvidas geraram bastante discussão quanto ao que poderia ser feito para um desenvolvimento mais sofisticado, entretanto, chegou-se a conclusão que a forma como foi desenvolvido era um fator determinante para que a flexibilidade do sistema fosse garantida, viabilizando a aplicação em diversos cenários. Além disso, uma das execuções foi registrada em vídeo e está disponível na página HTML do grupo.</p>
+    <p>Em conclusão, o teste de campo foi um sucesso. Todos os colegas de diferentes grupos que tiveram a experiência de testar o programa conseguiram resultados satisfatórios e tiveram pleno entendimento do funcionamento do programa.</p>
+
+    <h2>Conclusões</h2>
+    <p>Nesta seção a equipe deverá comentar se os objetivos propostos na introdução e a modelagem do trabalho foram atingidos ou não, baseados nos exemplos apresentados. Deverá ainda comentar sobre os pontos positivos e negativos e da implementação.</p>
+
+
+    
 </body>
 </html>
